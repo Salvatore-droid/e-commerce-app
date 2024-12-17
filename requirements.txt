@@ -1,7 +1,6 @@
 aadict==0.2.3
 acstore==20240407
 adblockparser==0.7
-adns==1.4+py1
 aesedb==0.1.3
 aiocmd==0.1.2
 aioconsole==0.7.0
@@ -83,6 +82,7 @@ bottle==0.13.2
 Bottleneck==1.3.8
 Brlapi==0.8.6
 Brotli==1.1.0
+build==1.2.2
 CacheControl==0.14.1
 cachetools==5.3.3
 cairocffi==1.7.1
@@ -105,6 +105,7 @@ cherrypy-cors==1.6
 chirp==20241122
 ciphey==5.14.0
 cipheydists==0.3.35
+cleo==2.1.0
 cli_helpers==2.3.1
 cliapp==1.20180812.1
 click==8.1.7
@@ -128,6 +129,7 @@ coreapi==2.3.3
 coreschema==0.0.4
 cpe==1.2.1
 crackmapexec==5.4.0
+crashtest==0.4.1
 crcelk==1.3
 croniter==2.0.7
 crowbar==4.1
@@ -203,6 +205,7 @@ dsinternals==1.2.4
 dsnap==1.0.0
 dtfabric==20240211
 duckpy==3.2.0
+dulwich==0.22.5
 dunamai==1.23.0
 easygui==0.98.1
 EasyProcess==1.1
@@ -226,6 +229,7 @@ faraday-plugins==1.19.1
 faraday_agent_parameters_types==1.7.2
 faradaysec==5.9.0
 fastapi==0.115.5
+fastimport==0.9.14
 fastjsonschema==2.20.0
 feedparser==6.0.11
 fierce==1.5.0
@@ -321,6 +325,7 @@ infinity==1.5
 inflect==7.3.1
 inflection==0.3.1
 iniconfig==1.1.1
+installer==0.7.0
 instaloader==4.13.1
 invoke==2.2.0
 IP2Proxy==3.4.0
@@ -332,11 +337,13 @@ isort==5.13.2
 itsdangerous==2.2.0
 itypes==1.2.0
 ivre==0.9.21+kali
+jaraco.classes==3.4.0
 jaraco.collections==5.0.1
 jaraco.context==6.0.0
 jaraco.functools==4.1.0
 jaraco.text==4.0.0
 jedi==0.19.1
+jeepney==0.8.0
 jefferson==0.4.3
 Jinja2==3.1.3
 jira==3.9.4
@@ -353,6 +360,7 @@ jupyter_core==5.7.2
 jwcrypto==1.5.6
 kaitaistruct==0.10
 kali-tweaks==2023.3.2
+keyring==25.4.1
 KismetCaptureBtGeiger==2021.7.1
 KismetCaptureFreaklabsZigbee==2018.7.0
 KismetCaptureRtl433==2020.10.1
@@ -481,6 +489,7 @@ pillow==10.4.0
 ping3==4.0.4
 pipenv==2024.0.1
 pipx==1.7.1
+pkginfo==1.11.2
 plaso==20240409
 plaster==1.0
 plaster-pastedeploy==0.5
@@ -492,7 +501,10 @@ pluggy==1.5.0
 pluginbase==1.0.1
 ply==3.11
 pocsuite3==1.9.6
+poetry==1.8.3
+poetry-core==1.9.0
 poetry-dynamic-versioning==1.4.1
+poetry-plugin-export==1.8.0
 policyuniverse==1.5.1.20231109
 portend==3.2.0
 prettytable==3.12.0
@@ -558,6 +570,7 @@ pyinotify==0.9.6
 pyinstaller==6.11.1
 pyinstaller-hooks-contrib==2024.10
 PyJWT==2.7.0
+pylev==1.4.0
 pylint==3.3.1
 pylnk3==0.4.2
 pylsqpack==0.3.18
@@ -581,6 +594,7 @@ pyperscan==0.3.0
 pyphen==0.16.0
 pypng==0.20231004.0
 pyppeteer==1.0.1
+pyproject_hooks==1.2.0
 pypsrp==0.8.1
 pypykatz==0.6.10
 PyQRCode==1.2.1
@@ -697,6 +711,7 @@ schema==0.7.7
 scikit-learn==1.4.2
 scipy==1.13.1
 sdkmanager==0.6.10
+SecretStorage==3.3.3
 secure==0.3.0
 selenium==4.24.0
 service-identity==24.1.0
@@ -705,6 +720,7 @@ setuptools==75.2.0
 sgmllib3k==1.0.0
 sh==2.0.7
 shellfire==0.12
+shellingham==1.5.4
 sherlock-project==0
 shodan==1.31.0
 shtab==1.7.1
@@ -787,6 +803,7 @@ translationstring==1.4
 treelib==1.7.0
 trio==0.27.0
 trio-websocket==0.11.1
+trove-classifiers==2024.9.12
 ttystatus==0.38
 Twisted==24.7.0
 txaio==23.1.1
