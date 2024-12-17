@@ -1,5 +1,4 @@
 aadict==0.2.3
-above==2.7
 acstore==20240407
 adblockparser==0.7
 adns==1.4+py1
