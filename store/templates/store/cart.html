@@ -1,0 +1,170 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .main-cart{
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            align-items: center;
+            .top-cart{
+                display: flex;
+                flex-direction: column;
+                margin-top: 40px;
+                width: 60%;
+
+        
+                .check{
+                    background-color: beige;
+                    padding: 50px;
+                    box-shadow: 1px 2px 5px;
+                    border-radius: 2px;
+                    a{
+                        text-decoration: none;
+                        border: 1px solid;
+                        padding: 10px;
+                    }
+                }
+                .content{
+                    display: flex;
+                    background-color: antiquewhite;
+                    padding: 50px;
+                    justify-content: space-between;
+                    box-shadow: 1px 2px 5px;
+                    a{
+                        text-decoration: none;
+                        border: 1px solid;
+                        padding: 10px; 
+                        background-color: green;
+                        color: aliceblue;
+                    }
+                }
+            }
+
+            .bottom-cart{
+                width: 60%;
+                background-color: beige;
+                box-shadow: 1px 3px 5px;
+                border-radius: 5px;
+                .header{
+                    display: flex;
+                    padding: 30px;
+                    align-items: center;
+                    gap: 50px;
+                }
+                .content{
+                    display: flex;
+                    padding-top: 20px;
+                    padding-left: 30px;
+                    padding-right: 30px;
+                    align-items: center;
+                    gap: 30px;
+                    img{
+                        width: 50px;
+                        height: 50px;
+                        object-fit: cover;
+                    }
+                    .quantity{
+                        display: flex;
+                        flex-direction: row;
+                        gap: 10px;
+                        padding-left: 40px;
+                    }
+                    .arrows{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+                        img{
+                            width: 15px;
+                            height: 15px;
+                            cursor: pointer;
+                        }
+                    }
+
+                }
+                
+            }
+            
+        }
+    </style>
+    <div class="main-cart">
+        <div class="top-cart">
+            <div class="check">
+                <a href="{% url 'store' %}">Continue Shopping</a>
+            </div>
+                <div class="content">
+                    <div><h3>Items: {{order.get_cart_quantity}}</h3></div>
+                    <div><h3>Total: $ {{order.get_cart_total|floatformat:2}}</h3></div>
+                    <div>
+                        <a href="{% url 'checkout' %}">Checkout</a>
+                    </div>
+                </div>
+        </div>
+            <div class="bottom-cart">
+                <div class="header">
+                    <div style="flex: 2;"></div>
+                    <div style="flex: 2;"><strong>Item</strong></div>
+                    <div style="flex: 1;"><strong>Price</strong></div>
+                    <div style="flex: 1;"><strong>Quantity</strong></div>
+                    <div style="flex: 1;"><strong>Total</strong></div>
+                </div>
+            {% for item in items %}
+                <div class="content">
+                    <div style="flex: 2;"><img src="{{item.product.imageURL}}" alt=""></div>
+                    <div style="flex: 2;">{{item.product.name}}</div>
+                    <div style="flex: 1;">${{item.product.price|floatformat:2}}</div>
+                    <div class="quantity" style="flex: 1;">
+                        <div>{{item.quantity}}</div>
+                        <div class="arrows">
+                            <img data-product="{{item.product.id}}" data-action="add" class="update-cart" src="{% static 'images/up.png' %}" alt="">
+                            <img data-product="{{item.product.id}}" data-action="remove" class="update-cart" src="{% static 'images/down.png' %}" alt="">
+                        </div>  
+                    </div>
+                    <div style="flex: 1;">${{item.get_total|floatformat:2}}</div>
+                </div>
+            {% endfor %}
+            </div>
+            <script>
+                var updateBtn = document.getElementsByClassName("update-cart")
+
+                for (var i = 0; i < updateBtn.length; i++){
+                    updateBtn[i].addEventListener('click', function(){
+                        var productId = this.dataset.product;
+                        var action = this.dataset.action;
+                        console.log("ProductId: ", productId, "action: ", action)
+
+                        console.log('User: ', user)
+                        if (user == 'AnonymousUser'){
+                            console.log("user is not authenticated!")
+                        }else{
+                            UpdateUserOrder(productId, action)
+                        }
+                    })
+                }
+                function UpdateUserOrder(productId, action){
+                    console.log("User is authenticated, sending user data...")
+                    var url = '/update_item/';
+
+                    fetch(url, {
+                        method:'POST',
+                        headers:{
+                            'Content-Type':'application/json',
+                            'X-CSRFToken':csrftoken,
+                        },
+                        body:JSON.stringify({'productId':productId, 'action':action})
+                    })
+                    .then((response) =>{
+                        return response.json();
+                    })
+                    .then((data) =>{
+                        console.log('Data: ', data)
+                        location.reload()
+                    })
+                }
+            </script>
+    </div>
+    <script>
+        
+    </script>
+{% endblock %}
+

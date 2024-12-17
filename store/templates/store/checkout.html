@@ -1,0 +1,136 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 100px;
+        }
+
+        .line {
+            border: 1px solid;
+            width: 90%;
+            color: grey;
+        }
+
+        .left {
+            background-color: azure;
+            padding: 50px;
+            box-shadow: 1px 5px 7px;
+            margin: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .left a {
+            text-decoration: none;
+            border: 1px solid;
+            padding: 10px;
+            padding-left: 37%;
+            background-color: green;
+            color: white;
+        }
+
+        .left form {
+            display: flex;
+            gap: 30px;
+            input{
+                width: 300px;
+                padding: 10px;
+                border-radius: 10px;
+                outline: none;
+            }
+        }
+
+        .left-fields, .right-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .right {
+            background-color: azure;
+            padding: 50px;
+            box-shadow: 1px 5px 7px;
+            margin: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .right a {
+            text-decoration: none;
+            border: 1px solid;
+            padding: 10px;
+            padding-left: 37%;
+            color: black;
+        }
+
+        .product {
+            display: flex;
+            justify-content: space-between;
+            img{
+                width: 30px;
+                height: 30px;
+                object-fit: cover;
+            }
+            p{
+                padding-left: 20px;
+            }
+        }
+
+        span {
+            font-weight: 100;
+        }
+    </style>
+    <div class="main">
+        <div class="left">
+            <div class="line"></div>
+            <h2>Shipping Information</h2>
+            <form action="">
+                <div class="left-fields">
+                    <input type="text" placeholder="Address...">
+                    <input type="text" placeholder="State...">
+                    <input type="text" placeholder="Zip code...">
+                </div>
+                <div class="right-fields">
+                    <input type="text" placeholder="City...">
+                    <input type="text" placeholder="Zip code...">
+                </div>
+            </form>
+            <div id="shipping-info"></div>
+            <a href="">Continue</a>
+        </div>
+        <div class="right">
+            <a href="{% url 'cart' %}">Back to cart</a>
+            <h1>Order Summary</h1>
+            <div class="line"></div>
+
+            
+                {% for item in items %}
+                    <div class="product">
+                        <img src="{{ item.product.imageURL }}" alt="{{ item.product.name }}">
+                        <p>{{ item.product.name }}</p>
+                        <p>Quantity: {{ item.quantity }}</p>
+                        <p>Price: ${{ item.get_total|floatformat:2 }}</p>
+                    </div>
+                {% endfor %}
+
+                <h3>Item Quantity: <span>{{ order.get_cart_quantity }}</span></h3>
+                <h3>Total: <span>$ {{ order.get_cart_total|floatformat:2 }}</span></h3>
+            
+        </div>
+    </div>
+    <script>
+        var shipping = '{{order.shipping}}'
+
+        if (shipping == 'False'){
+            document.getElementById('shipping-info').innerHTML = '';
+        }
+    </script>
+{% endblock %}

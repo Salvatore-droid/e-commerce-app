@@ -1,0 +1,111 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .main-store-content {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap into multiple rows */
+            gap: 30px; /* Space between the items */
+            padding: 30px;
+            justify-content: space-between; /* Align items with space in between */
+        }
+
+        .product {
+            background-color: rgb(233, 199, 155);
+            border: 1px solid;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: calc(20% - 30px); /* Ensures 4 items fit per row with some gap */
+            box-sizing: border-box; /* Prevents the width from exceeding */
+        }
+
+        .product img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+        }
+
+        .product_buttons {
+            display: flex;
+            gap: 30px;
+            .btns {
+                .add {
+                    border: 1px solid;
+                    padding: 10px;
+                    color: rgb(77, 31, 31);
+                }
+                .add:hover {
+                    color: white;
+                    background-color: rgb(77, 31, 31);
+                }
+                .view {
+                    border: 1px solid;
+                    padding: 10px;
+                    color: green;
+                }
+                .view:hover {
+                    color: white;
+                    background-color: green;
+                }
+            }
+
+            
+        }
+    </style>
+    <div class="main-store-content">
+        {% for product in products %}
+            <div class="product">
+                <img src="{{product.imageURL}}" alt="{{product.name}}">
+                <p>{{product.name}}</p>
+                <div class="product_buttons">
+                    <div class="btns">
+                        <button data-product="{{product.id}}" data-action="add" class="add update-cart">Add to cart</button>
+                        <button href="" class="view">View</button>
+                    </div>
+                    <div><h3>$ {{product.price}}</h3></div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        var updateBtn = document.getElementsByClassName("update-cart")
+
+        for (var i = 0; i < updateBtn.length; i++){
+            updateBtn[i].addEventListener('click', function(){
+                var productId = this.dataset.product;
+                var action = this.dataset.action;
+                console.log("ProductId: ", productId, "action: ", action)
+
+                console.log('User: ', user)
+                if (user == 'AnonymousUser'){
+                    console.log("user is not authenticated!")
+                }else{
+                    UpdateUserOrder(productId, action)
+                }
+            })
+        }
+        function UpdateUserOrder(productId, action){
+            console.log("User is authenticated, sending user data...")
+            var url = '/update_item/';
+
+            fetch(url, {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                    'X-CSRFToken':csrftoken,
+                },
+                body:JSON.stringify({'productId':productId, 'action':action})
+            })
+            .then((response) =>{
+                return response.json();
+            })
+            .then((data) =>{
+                console.log('Data: ', data)
+                location.reload()
+            })
+        }
+    </script>
+{% endblock %}
