@@ -24,20 +24,20 @@
             display: flex;
             flex-direction: column;
             gap: 30px;
-        }
-
-        .left a {
-            text-decoration: none;
-            border: 1px solid;
-            padding: 10px;
-            padding-left: 37%;
-            background-color: green;
-            color: white;
+            button{
+                padding: 10px;
+                background-color: green;
+                color: aliceblue;
+                border: none;
+                width: 70%;
+                cursor: pointer;
+            }
         }
 
         .left form {
             display: flex;
             gap: 30px;
+            padding-bottom: 30px;
             input{
                 width: 300px;
                 padding: 10px;
@@ -49,7 +49,7 @@
         .left-fields, .right-fields {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 30px;
         }
 
         .right {
@@ -87,24 +87,42 @@
         span {
             font-weight: 100;
         }
+        h2{
+            padding-bottom: 50px;
+        }
+        .payment{
+            
+            background-color: bisque;
+            padding: 15px;
+            align-items: center;
+            padding-left: 40%;
+            border-radius: 10px;
+        }
     </style>
     <div class="main">
         <div class="left">
+            <div class="user-info" id="user">
+                <form id="form" action="">
+                    <input type="text" placeholder="Name..." name="name">
+                    <input type="text" placeholder="Email..." name="email">
+                </form>
+            </div>
             <div class="line"></div>
-            <h2>Shipping Information</h2>
-            <form action="">
-                <div class="left-fields">
-                    <input type="text" placeholder="Address...">
-                    <input type="text" placeholder="State...">
-                    <input type="text" placeholder="Zip code...">
-                </div>
-                <div class="right-fields">
-                    <input type="text" placeholder="City...">
-                    <input type="text" placeholder="Zip code...">
-                </div>
-            </form>
-            <div id="shipping-info"></div>
-            <a href="">Continue</a>
+            <div id="shipping-info">
+                <h2>Shipping Information</h2>
+                <form id="form" action="">
+                    <div class="left-fields">
+                        <input type="text" placeholder="Address..." name="address">
+                        <input type="text" placeholder="State..." name="state">
+                        <input type="text" placeholder="Zip code..." name="zipcode">
+                    </div>
+                    <div class="right-fields">
+                        <input type="text" placeholder="City..." name="city">
+                        <input type="text" placeholder="Zip code..." name="zipcode">
+                    </div>
+                </form>
+                <button id="form-btn">Continue</button>
+            </div>
         </div>
         <div class="right">
             <a href="{% url 'cart' %}">Back to cart</a>
@@ -128,9 +146,65 @@
     </div>
     <script>
         var shipping = '{{order.shipping}}'
+        var total = '{{order.get_cart_total}}'
 
         if (shipping == 'False'){
             document.getElementById('shipping-info').innerHTML = '';
+        }
+
+        if (user != 'AnonymousUser'){
+            document.getElementById('user').innerHTML = '';
+        }
+
+        document.getElementById('form-btn').addEventListener('click', function(e){
+            e.preventDefault()
+            submitFormData();
+        })
+
+        function submitFormData(){
+            console.log("payment button is clicked")
+
+            var ShippingInfo = {
+                'address':null,
+                'state':null,
+                'city':null,
+                'zipcode':null,
+            }
+
+            var userFormData = {
+                'name':null,
+                'email':null,
+                'total':total,
+            }
+
+            if (shipping != 'False'){
+                ShippingInfo.address = form.address.value
+                ShippingInfo.state = form.state.value
+                ShippingInfo.city = form.city.value
+                ShippingInfo.zipcode = form.zipcode.value
+            }
+
+            if (user == 'AnonymousUser'){
+                userFormData.name = form.name.value
+                userFormData.email = form.email.value
+            }
+
+            var url = '/process_order/'
+
+            fetch(url, {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                    'X-CSRFToken':csrftoken,
+                },
+                body:JSON.stringify({'form':userFormData, 'shipping':ShippingInfo}),
+            })
+            .then((response) =>response.json())
+            .then((data) =>{
+                console.log('Success: ', data)
+                alert("Order placed Successfully..!!")
+                window.location.href = "{% url 'store' %}"
+            })
         }
     </script>
 {% endblock %}
