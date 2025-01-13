@@ -81,12 +81,40 @@
 
                 console.log('User: ', user)
                 if (user == 'AnonymousUser'){
-                    console.log("user is not authenticated!")
+                    addCookieItem(productId, action)
                 }else{
                     UpdateUserOrder(productId, action)
                 }
             })
         }
+
+        function addCookieItem(productId, action){
+            console.log("user is not logged in..!!")
+
+            if (action == 'add'){
+                if (cart[productId] == undefined){
+                    cart[productId] = {'quantity':1}
+                }else{
+                    cart[productId]['quantity'] +=1;
+                }
+            }
+
+            if (action == 'remove'){
+                cart[productId]['quantity'] -=1;
+
+                if (cart[productId]['quantity'] <= 0){
+                    console.log("Item removed")
+                    delete cart[productId]
+                }
+                
+            }
+            console.log("cart:", cart)
+            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/" 
+            location.reload()
+
+        }
+
+            
         function UpdateUserOrder(productId, action){
             console.log("User is authenticated, sending user data...")
             var url = '/update_item/';
